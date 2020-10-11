@@ -41,7 +41,7 @@ class HotelItemModel {
   factory HotelItemModel.fromJson(Map<String, dynamic> json) {
     List<dynamic> featuresJSON = json['hotelFeatures'];
     List<HotelFeaturesOption> features = [];
-    for (int i = 0; 0 < featuresJSON.length; i++) {
+    for (int i = 0; i < featuresJSON.length; i++) {
       features.add(HotelFeaturesOption.fromJson(featuresJSON[i]));
     }
     return HotelItemModel(

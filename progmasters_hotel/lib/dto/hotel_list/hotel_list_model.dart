@@ -18,7 +18,6 @@ class HotelListModel {
     List<dynamic> hotelsJSON = json['hotels'];
     List<dynamic> hotelFeaturesOptionsJSON = json['hotelFeaturesOptions'];
     List<dynamic> currencyOptionsJSON = json['currencyOptions'];
-
     List<HotelItemModel> hotels = [];
     List<HotelFeaturesOption> hotelFeaturesOptions = [];
     List<CurrencyDTOModel> currencyOptions = [];

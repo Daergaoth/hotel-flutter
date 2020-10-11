@@ -1,25 +1,40 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:progmasters_hotel/dto/filters/init_filter.dart';
+import 'package:progmasters_hotel/dto/hotel_list/hotel_list_model.dart';
 
 import 'file:///C:/Flutter/applications/hotel/hotel-flutter/progmasters_hotel/lib/dto/home/city_names.dart';
-import 'file:///C:/Flutter/applications/hotel/hotel-flutter/progmasters_hotel/lib/dto/hotel_list/hotel_list_model.dart';
 
 class HotelService {
   final String baseUrl = 'https://hotel.progmasters.hu/api/hotels';
 
   List<String> cityNames = [];
 
-  HotelListModel hotelListModel;
+  static HotelListModel hotelListModel;
 
-  Future<void> getHotelListModel(InitFilter filter) async {
+  static InitFilter filter;
+
+  InitFilter initFilter = new InitFilter(null, null, null, null);
+
+  Future<HotelListModel> getHotelListModel(InitFilter filter) async {
     try {
-      String token = '';
-      Response response = await post('$baseUrl/',
-          body: filter,
-          headers: {HttpHeaders.proxyAuthenticateHeader: 'Bearer$token'});
+      // String token = '';
+      Response response =
+          await post('https://hotel.progmasters.hu/api/reservation/initFilter',
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(<String, String>{
+                'currentDate': filter.currentDate,
+                'startReservation': filter.startReservation,
+                'endReservation': filter.endReservation,
+                'town': filter.town,
+              }));
+      if (response.statusCode == 200) {
+        hotelListModel = HotelListModel.fromJson(jsonDecode(response.body));
+        return hotelListModel;
+      }
     } catch (e) {
       print(e);
     }
