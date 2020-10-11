@@ -91,6 +91,7 @@ class _HomeState extends State<Home> {
                 icon: Icon(Icons.search),
                 onPressed: () {
                   print(selectedCity);
+                  print('sajt');
                 },
                 color: Colors.lightBlue[900],
                 iconSize: 36.0,
