@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:progmasters_hotel/dto/filters/hotel_filter_model.dart';
 import 'package:progmasters_hotel/dto/filters/init_filter.dart';
 import 'package:progmasters_hotel/dto/hotel_list/hotel_list_model.dart';
 
@@ -15,7 +16,42 @@ class HotelService {
 
   static InitFilter filter;
 
-  InitFilter initFilter = new InitFilter(null, null, null, null);
+  // InitFilter initFilter = new InitFilter(null, null, null, null);
+
+  static HotelFilterModel hotelFilterModel;
+
+  Future<HotelListModel> getHotelListModelWithBackendFiltering(
+      HotelFilterModel hotelFilterModel) async {
+    try {
+      // String token = '';
+      Response response = await post('$baseUrl/serverFiltering',
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, String>{
+            'currentDate': hotelFilterModel.currentDate,
+            'startReservation': hotelFilterModel.startReservation,
+            'endReservation': hotelFilterModel.endReservation,
+            'town': hotelFilterModel.town,
+            'name': hotelFilterModel.name,
+            'minPrice': hotelFilterModel.minPrice.toString(),
+            'maxPrice': hotelFilterModel.maxPrice.toString(),
+            'userRating': hotelFilterModel.userRating.toString(),
+            // 'features': hotelFilterModel.features.toString(),
+            'minFreeRooms': hotelFilterModel.minFreeRooms.toString(),
+          }));
+      if (response.statusCode == 200) {
+        hotelListModel = HotelListModel.fromJson(jsonDecode(response.body));
+        // return HotelListModel.fromJson(jsonDecode(response.body));
+        return hotelListModel;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
   Future<HotelListModel> getHotelListModel(InitFilter filter) async {
     try {
@@ -32,8 +68,8 @@ class HotelService {
                 'town': filter.town,
               }));
       if (response.statusCode == 200) {
-        hotelListModel = HotelListModel.fromJson(jsonDecode(response.body));
-        return hotelListModel;
+        // hotelListModel = HotelListModel.fromJson(jsonDecode(response.body));
+        return HotelListModel.fromJson(jsonDecode(response.body));
       }
     } catch (e) {
       print(e);

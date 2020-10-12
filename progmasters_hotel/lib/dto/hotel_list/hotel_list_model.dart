@@ -18,9 +18,11 @@ class HotelListModel {
     List<dynamic> hotelsJSON = json['hotels'];
     List<dynamic> hotelFeaturesOptionsJSON = json['hotelFeaturesOptions'];
     List<dynamic> currencyOptionsJSON = json['currencyOptions'];
+    List<dynamic> hotelNamesJSON = json['hotelNameList'];
     List<HotelItemModel> hotels = [];
     List<HotelFeaturesOption> hotelFeaturesOptions = [];
     List<CurrencyDTOModel> currencyOptions = [];
+    List<String> hotelNames = [];
 
     for (int i = 0; i < hotelsJSON.length; i++) {
       hotels.add(HotelItemModel.fromJson(hotelsJSON[i]));
@@ -34,12 +36,13 @@ class HotelListModel {
     for (int i = 0; i < currencyOptionsJSON.length; i++) {
       currencyOptions.add(CurrencyDTOModel.fromJson(currencyOptionsJSON[i]));
     }
+    hotelNames = hotelNamesJSON.cast<String>();
 
     return HotelListModel(
       hotels: hotels,
       hotelFeaturesOptions: hotelFeaturesOptions,
       currencyOptions: currencyOptions,
-      hotelNameList: json['hotelNameList'],
+      hotelNameList: hotelNames,
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:progmasters_hotel/dto/filters/hotel_filter_model.dart';
 import 'package:progmasters_hotel/dto/filters/init_filter.dart';
 import 'package:progmasters_hotel/services/hotel_service.dart';
 
@@ -233,24 +234,30 @@ class _HomeState extends State<Home> {
                                           color: Colors.red[700],),
                                         SizedBox(width: 10.0,),
                                         Text(
-                                          'Please fill all field with valid information.',
-                                          style: TextStyle(
-                                            color: Colors.red[700],
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                )
-                            );
-                          } else {
-                            HotelService.filter = new InitFilter(
-                                _currentDateString, _pickedStartDate,
-                                _pickedEndDate, _selectedCity);
-                            Navigator.pushNamed(context, '/hotel-list');
-                          }
-                        },
-                        color: Colors.lightBlue[900],
-                      ),
+                                  'Please fill all field with valid information.',
+                                  style: TextStyle(
+                                    color: Colors.red[700],
+                                  ),
+                                ),
+                              ],
+                            )));
+                      } else {
+                        HotelService.hotelFilterModel = new HotelFilterModel();
+                        HotelService.hotelFilterModel.town = _selectedCity;
+                        HotelService.hotelFilterModel.currentDate =
+                            _currentDateString;
+                        HotelService.hotelFilterModel.startReservation =
+                            _pickedStartDate;
+                        HotelService.hotelFilterModel.endReservation =
+                            _pickedEndDate;
+                        // HotelService.filter = new InitFilter(
+                        //     _currentDateString, _pickedStartDate,
+                        //     _pickedEndDate, _selectedCity);
+                        Navigator.pushNamed(context, '/hotel-list');
+                      }
+                    },
+                    color: Colors.lightBlue[900],
+                  ),
                 ),
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:progmasters_hotel/dto/filters/hotel_filter_model.dart';
 import 'package:progmasters_hotel/dto/hotel_list/hotel_item_model.dart';
 import 'package:progmasters_hotel/dto/hotel_list/hotel_list_model.dart';
 import 'package:progmasters_hotel/services/hotel_service.dart';
@@ -11,12 +12,14 @@ class HotelList extends StatefulWidget {
 class _HotelListState extends State<HotelList> {
   List<HotelItemModel> hotels = [];
   HotelListModel hotelList = new HotelListModel();
+  HotelFilterModel _hotelFilterModel;
 
   // InitFilter filter;
 
   @override
   void initState() {
     super.initState();
+    // _hotelFilterModel.
   }
 
   _HotelListState() {}
@@ -184,8 +187,8 @@ class _HotelListState extends State<HotelList> {
 
   Future<HotelListModel> fetchHotelList() async {
     HotelService hotelService = new HotelService();
-    Future<HotelListModel> hotelListTemp =
-        hotelService.getHotelListModel(HotelService.filter);
+    Future<HotelListModel> hotelListTemp = hotelService
+        .getHotelListModelWithBackendFiltering(HotelService.hotelFilterModel);
     return hotelListTemp;
   }
 }
